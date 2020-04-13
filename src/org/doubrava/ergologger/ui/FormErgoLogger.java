@@ -3,6 +3,7 @@ package org.doubrava.ergologger.ui;
 import org.doubrava.ergologger.bl.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Duration;
@@ -40,6 +41,26 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
     private JButton btnConnect;
     private JButton btnDisconnect;
     private JLabel lblClock;
+
+    private static java.awt.Color DEFAULT_SPD_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(209, 235, 255, null)[0],
+            Color.RGBtoHSB(209, 235, 255, null)[1],
+            Color.RGBtoHSB(209, 235, 255, null)[2]);
+
+    private static java.awt.Color DEFAULT_HRF_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(238, 200, 200, null)[0],
+            Color.RGBtoHSB(238, 200, 200, null)[1],
+            Color.RGBtoHSB(238, 200, 200, null)[2]);
+
+    private static java.awt.Color DEFAULT_RPM_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(244, 244, 224, null)[0],
+            Color.RGBtoHSB(244, 244, 224, null)[1],
+            Color.RGBtoHSB(244, 244, 224, null)[2]);
+
+    private static java.awt.Color DEFAULT_POW_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(252, 216, 245, null)[0],
+            Color.RGBtoHSB(252, 216, 245, null)[1],
+            Color.RGBtoHSB(252, 216, 245, null)[2]);
 
     private Clock clock;
     private DataAdapter dataAdapter;
@@ -86,10 +107,10 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
         this.panelSingleKPI1 = new PanelSingleKPI(SensorType.DISTANCE);
         this.panelSingleKPI2 = new PanelSingleKPI(SensorType.CALORIES);
 
-        this.panelSensorDisplay1 = new PanelSensorDisplay(SensorType.SPEED);
-        this.panelSensorDisplay2 = new PanelSensorDisplay(SensorType.HRF);
-        this.panelSensorDisplay3 = new PanelSensorDisplay(SensorType.RPM);
-        this.panelSensorDisplay4 = new PanelSensorDisplay(SensorType.POWER);
+        this.panelSensorDisplay1 = new PanelSensorDisplay(SensorType.SPEED, FormErgoLogger.DEFAULT_SPD_COLOR);
+        this.panelSensorDisplay2 = new PanelSensorDisplay(SensorType.HRF, FormErgoLogger.DEFAULT_HRF_COLOR);
+        this.panelSensorDisplay3 = new PanelSensorDisplay(SensorType.RPM, FormErgoLogger.DEFAULT_RPM_COLOR);
+        this.panelSensorDisplay4 = new PanelSensorDisplay(SensorType.POWER, FormErgoLogger.DEFAULT_POW_COLOR);
     }
 
     @Override

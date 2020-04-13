@@ -33,8 +33,16 @@ public class PanelSensorDisplay extends JPanel {
     private JLabel lblSensorType;
 
     public static int DEFAULT_MAX_CHART_ITEMS = 120;
-    private static java.awt.Color DEFAULT_ACT_COLOR = Color.RED;
-    private static java.awt.Color DEFAULT_AVG_COLOR = Color.BLUE;
+
+    private static java.awt.Color DEFAULT_ACT_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(192, 0, 0, null)[0],
+            Color.RGBtoHSB(192, 0, 0, null)[1],
+            Color.RGBtoHSB(192, 0, 0, null)[2]);
+
+    private static java.awt.Color DEFAULT_AVG_COLOR = Color.getHSBColor(
+            Color.RGBtoHSB(0, 112, 192, null)[0],
+            Color.RGBtoHSB(0, 112, 192, null)[1],
+            Color.RGBtoHSB(0, 112, 192, null)[2]);
 
     private SensorType sensorType;
 
@@ -45,7 +53,7 @@ public class PanelSensorDisplay extends JPanel {
     private XYLineAndShapeRenderer chartRenderer;
     private ChartPanel chartPanel;
 
-    public PanelSensorDisplay(SensorType sensorType) {
+    public PanelSensorDisplay(SensorType sensorType, java.awt.Color bg) {
 
         this.sensorType = sensorType;
         this.lblSensorType.setText(SensorLabel.getInstance().getMap(sensorType).get(SensorLabelItem.NAME));
@@ -59,6 +67,10 @@ public class PanelSensorDisplay extends JPanel {
         //this.lblAverage.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
         this.lblAverageValue.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
         //this.lblAverageUnit.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
+
+        this.pnlActual.setBackground(bg);
+        this.pnlAverage.setBackground(bg);
+        this.pnlChartContainer.setBackground(bg);
 
         this.chartSeriesAct = new XYSeries("Actual");
         this.chartSeriesAvg = new XYSeries("Average");
@@ -99,6 +111,7 @@ public class PanelSensorDisplay extends JPanel {
         chartPlot.setDomainGridlinesVisible(true);
         chartPlot.setDomainGridlinePaint(Color.BLACK);
         chartPlot.getDomainAxis().setRange(1, PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS);
+        chartPlot.getDomainAxis().setVisible(false);
 
         this.chart.getLegend().setFrame(BlockBorder.NONE);
         this.chart.getLegend().setVisible(false);
