@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.doubrava.ergologger.ui.PanelSingleKPI">
+  <grid id="27dc6" binding="pnlSingleKPI" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <maximumSize width="200" height="30"/>
+      <minimumSize width="200" height="30"/>
+      <preferredSize width="200" height="30"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="174a1" class="javax.swing.JLabel" binding="lblName">
+        <constraints/>
+        <properties>
+          <horizontalAlignment value="2"/>
+          <maximumSize width="80" height="16"/>
+          <minimumSize width="80" height="16"/>
+          <preferredSize width="80" height="16"/>
+          <text value="Name"/>
+        </properties>
+      </component>
+      <component id="1c7a2" class="javax.swing.JLabel" binding="lblValue">
+        <constraints/>
+        <properties>
+          <horizontalAlignment value="4"/>
+          <text value="0.0"/>
+        </properties>
+      </component>
+      <component id="d5608" class="javax.swing.JLabel" binding="lblUnit">
+        <constraints/>
+        <properties>
+          <horizontalAlignment value="2"/>
+          <maximumSize width="50" height="16"/>
+          <minimumSize width="50" height="16"/>
+          <preferredSize width="50" height="16"/>
+          <text value="Unit"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

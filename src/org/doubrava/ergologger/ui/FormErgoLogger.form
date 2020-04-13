@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.doubrava.ergologger.ui.FormErgoLogger">
+  <grid id="27dc6" binding="pnlMain" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="800" height="600"/>
+    </constraints>
+    <properties>
+      <minimumSize width="800" height="600"/>
+      <preferredSize width="800" height="600"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="e9393" binding="pnlFooter" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f1be" class="javax.swing.JLabel" binding="lblStatusbar">
+            <constraints border-constraint="South"/>
+            <properties>
+              <text value="Not connected."/>
+            </properties>
+          </component>
+          <grid id="94437" binding="pnlCommand" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="f1fb2" class="javax.swing.JButton" binding="btnConnect">
+                <constraints/>
+                <properties>
+                  <text value="Connect"/>
+                </properties>
+              </component>
+              <component id="6305f" class="javax.swing.JButton" binding="btnStart">
+                <constraints/>
+                <properties>
+                  <text value="Start"/>
+                </properties>
+              </component>
+              <component id="81784" class="javax.swing.JButton" binding="btnPause">
+                <constraints/>
+                <properties>
+                  <text value="Pause"/>
+                </properties>
+              </component>
+              <component id="d704a" class="javax.swing.JButton" binding="btnRestart">
+                <constraints/>
+                <properties>
+                  <text value="Restart"/>
+                </properties>
+              </component>
+              <component id="e6fee" class="javax.swing.JButton" binding="btnStop">
+                <constraints/>
+                <properties>
+                  <text value="Stop"/>
+                </properties>
+              </component>
+              <component id="b6274" class="javax.swing.JButton" binding="btnDisconnect">
+                <constraints/>
+                <properties>
+                  <text value="Disconnect"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="30e7e" binding="pnlDisplayContainer" layout-manager="GridBagLayout">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <nested-form id="558a4" form-file="org/doubrava/ergologger/ui/PanelSensorDisplay.form" binding="panelSensorDisplay1" custom-create="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+          </nested-form>
+          <nested-form id="1bd16" form-file="org/doubrava/ergologger/ui/PanelSensorDisplay.form" binding="panelSensorDisplay2" custom-create="true">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+          </nested-form>
+          <nested-form id="5d7c6" form-file="org/doubrava/ergologger/ui/PanelSensorDisplay.form" binding="panelSensorDisplay3" custom-create="true">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+          </nested-form>
+          <nested-form id="b234b" form-file="org/doubrava/ergologger/ui/PanelSensorDisplay.form" binding="panelSensorDisplay4" custom-create="true">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+          </nested-form>
+          <vspacer id="62f99">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="d32af">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="e8359">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+        </children>
+      </grid>
+      <grid id="226e8" binding="pnlHeader" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="52cc6" class="javax.swing.JLabel" binding="lblDuration">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <font size="22" style="1"/>
+              <horizontalAlignment value="0"/>
+              <text value="00:00:00"/>
+            </properties>
+          </component>
+          <grid id="122a4" binding="pnlSingleKPIContainer" layout-manager="GridBagLayout">
+            <constraints border-constraint="East"/>
+            <properties>
+              <minimumSize width="200" height="60"/>
+              <preferredSize width="200" height="60"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <nested-form id="767ec" form-file="org/doubrava/ergologger/ui/PanelSingleKPI.form" binding="panelSingleKPI1" custom-create="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+              </nested-form>
+              <nested-form id="cc3f2" form-file="org/doubrava/ergologger/ui/PanelSingleKPI.form" binding="panelSingleKPI2" custom-create="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+              </nested-form>
+            </children>
+          </grid>
+          <grid id="86277" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="West"/>
+            <properties>
+              <minimumSize width="200" height="16"/>
+              <preferredSize width="200" height="16"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="e12e7" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <minimumSize width="20" height="0"/>
+                  <preferredSize width="20" height="0"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <grid id="7579c" binding="pnlClock" layout-manager="GridBagLayout">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="251c8" class="javax.swing.JLabel" binding="lblClockDate">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <font style="0"/>
+                      <text value="dd.mm.yyyy"/>
+                    </properties>
+                  </component>
+                  <component id="da0c0" class="javax.swing.JLabel" binding="lblClockTime">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <font size="14" style="1"/>
+                      <text value="hh:mm:ss"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
