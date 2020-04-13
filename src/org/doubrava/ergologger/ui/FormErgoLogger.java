@@ -76,10 +76,10 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
 
         this.panelSingleKPI1.setSensorValue(0.0);
         this.panelSingleKPI2.setSensorValue(0.0);
-        this.panelSensorDisplay1.setSensorValues(0.0, 0.0);
-        this.panelSensorDisplay2.setSensorValues(0.0, 0.0);
-        this.panelSensorDisplay3.setSensorValues(0.0, 0.0);
-        this.panelSensorDisplay4.setSensorValues(0.0, 0.0);
+        this.panelSensorDisplay1.setSensorValues(0.0, 0.0, null, null);
+        this.panelSensorDisplay2.setSensorValues(0.0, 0.0, null, null);
+        this.panelSensorDisplay3.setSensorValues(0.0, 0.0, null, null);
+        this.panelSensorDisplay4.setSensorValues(0.0, 0.0, null, null);
     }
 
     private void createUIComponents() {
@@ -126,19 +126,27 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
 
         this.panelSensorDisplay1.setSensorValues(
                 this.dataSet.getAverageValue(this.panelSensorDisplay1.getSensorType()),
-                this.dataSet.getLastValue(this.panelSensorDisplay1.getSensorType()));
+                this.dataSet.getLastValue(this.panelSensorDisplay1.getSensorType()),
+                this.dataSet.getDataItemValues(this.panelSensorDisplay1.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS),
+                this.dataSet.getDataItemAverages(this.panelSensorDisplay1.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS));
 
         this.panelSensorDisplay2.setSensorValues(
                 this.dataSet.getAverageValue(this.panelSensorDisplay2.getSensorType()),
-                this.dataSet.getLastValue(this.panelSensorDisplay2.getSensorType()));
+                this.dataSet.getLastValue(this.panelSensorDisplay2.getSensorType()),
+                this.dataSet.getDataItemValues(this.panelSensorDisplay2.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS),
+                this.dataSet.getDataItemAverages(this.panelSensorDisplay2.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS));
 
         this.panelSensorDisplay3.setSensorValues(
                 this.dataSet.getAverageValue(this.panelSensorDisplay3.getSensorType()),
-                this.dataSet.getLastValue(this.panelSensorDisplay3.getSensorType()));
+                this.dataSet.getLastValue(this.panelSensorDisplay3.getSensorType()),
+                this.dataSet.getDataItemValues(this.panelSensorDisplay3.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS),
+                this.dataSet.getDataItemAverages(this.panelSensorDisplay3.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS));
 
         this.panelSensorDisplay4.setSensorValues(
                 this.dataSet.getAverageValue(this.panelSensorDisplay4.getSensorType()),
-                this.dataSet.getLastValue(this.panelSensorDisplay4.getSensorType()));
+                this.dataSet.getLastValue(this.panelSensorDisplay4.getSensorType()),
+                this.dataSet.getDataItemValues(this.panelSensorDisplay4.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS),
+                this.dataSet.getDataItemAverages(this.panelSensorDisplay4.getSensorType(), PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS));
     }
 
     @Override

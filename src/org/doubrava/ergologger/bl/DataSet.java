@@ -26,9 +26,11 @@ public class DataSet implements DataObserver {
     public void updateData(Instant timestamp, HashMap<SensorType, Double> valueMap) {
         this.dataItems.add(new DataItem(timestamp, (HashMap<SensorType, Double>) valueMap.clone()));
 
+        /*
         System.out.println("  " + timestamp.toString());
         System.out.println("  " + valueMap.toString());
         System.out.println("");
+         */
     }
 
     @Override
@@ -94,6 +96,42 @@ public class DataSet implements DataObserver {
             sumValue += this.dataItems.get(i).getValue(sensorType);
         }
         return sumValue / this.dataItems.size();
+    }
+
+    public double getAverageValue(SensorType sensorType, int startIndex, int endIndex) {
+        double sumValue = 0;
+        for (int i = Integer.max(0, startIndex - 1); i < Integer.min(this.dataItems.size(), endIndex); i++) {
+            sumValue += this.dataItems.get(i).getValue(sensorType);
+        }
+        return sumValue / (Integer.min(this.dataItems.size(), endIndex) - Integer.max(0, startIndex - 1));
+    }
+
+    public ArrayList<Double> getDataItemValues(SensorType sensorType, int lastItemCount) {
+        ArrayList<Double> lst = new ArrayList<Double>();
+        if (this.dataItems.size() > lastItemCount) {
+            for (int i = this.dataItems.size() - lastItemCount - 1; i < this.dataItems.size(); i++) {
+                lst.add(this.dataItems.get(i).getValue(sensorType));
+            }
+        } else {
+            for (int i = 0; i < this.dataItems.size(); i++) {
+                lst.add(this.dataItems.get(i).getValue(sensorType));
+            }
+        }
+        return lst;
+    }
+
+    public ArrayList<Double> getDataItemAverages(SensorType sensorType, int lastItemCount) {
+        ArrayList<Double> lst = new ArrayList<Double>();
+        if (this.dataItems.size() > lastItemCount) {
+            for (int i = this.dataItems.size() - lastItemCount - 1; i < this.dataItems.size(); i++) {
+                lst.add(this.getAverageValue(sensorType, 1, i));
+            }
+        } else {
+            for (int i = 0; i < this.dataItems.size(); i++) {
+                lst.add(this.getAverageValue(sensorType, 1, i));
+            }
+        }
+        return lst;
     }
 
 }

@@ -15,11 +15,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class PanelSensorDisplay extends JPanel {
@@ -34,13 +31,18 @@ public class PanelSensorDisplay extends JPanel {
     private JLabel lblActualUnit;
     private JLabel lblActual;
     private JLabel lblSensorType;
-    private JPanel pnlChartGridBag;
+
+    public static int DEFAULT_MAX_CHART_ITEMS = 120;
+    private static java.awt.Color DEFAULT_ACT_COLOR = Color.RED;
+    private static java.awt.Color DEFAULT_AVG_COLOR = Color.BLUE;
 
     private SensorType sensorType;
 
-    XYSeriesCollection collection;
+    XYSeries chartSeriesAct;
+    XYSeries chartSeriesAvg;
+    XYSeriesCollection chartCollection;
     private JFreeChart chart;
-    private XYLineAndShapeRenderer renderer;
+    private XYLineAndShapeRenderer chartRenderer;
     private ChartPanel chartPanel;
 
     public PanelSensorDisplay(SensorType sensorType) {
@@ -50,70 +52,63 @@ public class PanelSensorDisplay extends JPanel {
         this.lblAverageUnit.setText(SensorLabel.getInstance().getMap(sensorType).get(SensorLabelItem.UNIT));
         this.lblActualUnit.setText(SensorLabel.getInstance().getMap(sensorType).get(SensorLabelItem.UNIT));
 
-        XYSeries series = new XYSeries("2016");
-        series.add(18, 567);
-        series.add(20, 612);
-        series.add(25, 800);
-        series.add(30, 980);
-        series.add(40, 1410);
-        series.add(50, 2350);
+        //this.lblActual.setForeground(PanelSensorDisplay.DEFAULT_ACT_COLOR);
+        this.lblActualValue.setForeground(PanelSensorDisplay.DEFAULT_ACT_COLOR);
+        //this.lblActualUnit.setForeground(PanelSensorDisplay.DEFAULT_ACT_COLOR);
 
-        this.collection = new XYSeriesCollection();
-        collection.addSeries(series);
+        //this.lblAverage.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
+        this.lblAverageValue.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
+        //this.lblAverageUnit.setForeground(PanelSensorDisplay.DEFAULT_AVG_COLOR);
+
+        this.chartSeriesAct = new XYSeries("Actual");
+        this.chartSeriesAvg = new XYSeries("Average");
+
+        this.chartCollection = new XYSeriesCollection();
+        this.chartCollection.addSeries(this.chartSeriesAct);
+        this.chartCollection.addSeries(this.chartSeriesAvg);
 
         this.chart = ChartFactory.createXYLineChart(
                 "",
                 "",
                 "",
-                collection,
+                this.chartCollection,
                 PlotOrientation.VERTICAL,
                 true,
                 true,
                 false
         );
 
-        XYPlot plot = chart.getXYPlot();
+        XYPlot chartPlot = this.chart.getXYPlot();
 
-        this.renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
+        this.chartRenderer = new XYLineAndShapeRenderer();
 
-        plot.setRenderer(renderer);
-        plot.setBackgroundPaint(null);
+        this.chartRenderer.setSeriesPaint(0, PanelSensorDisplay.DEFAULT_ACT_COLOR);
+        this.chartRenderer.setSeriesStroke(0, new BasicStroke(1.5f));
+        this.chartRenderer.setSeriesShapesVisible(0, false);
 
-        plot.setRangeGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.BLACK);
+        this.chartRenderer.setSeriesPaint(1, PanelSensorDisplay.DEFAULT_AVG_COLOR);
+        this.chartRenderer.setSeriesStroke(1, new BasicStroke(1.5f));
+        this.chartRenderer.setSeriesShapesVisible(1, false);
 
-        plot.setDomainGridlinesVisible(true);
-        plot.setDomainGridlinePaint(Color.BLACK);
+        chartPlot.setRenderer(this.chartRenderer);
+        chartPlot.setBackgroundPaint(null);
 
-        chart.getLegend().setFrame(BlockBorder.NONE);
-        chart.getLegend().setVisible(false);
-        chart.setBackgroundPaint(null);
+        chartPlot.setRangeGridlinesVisible(true);
+        chartPlot.setRangeGridlinePaint(Color.BLACK);
+
+        chartPlot.setDomainGridlinesVisible(true);
+        chartPlot.setDomainGridlinePaint(Color.BLACK);
+        chartPlot.getDomainAxis().setRange(1, PanelSensorDisplay.DEFAULT_MAX_CHART_ITEMS);
+
+        this.chart.getLegend().setFrame(BlockBorder.NONE);
+        this.chart.getLegend().setVisible(false);
+        this.chart.setBackgroundPaint(null);
 
         this.chartPanel = new ChartPanel(chart);
-        /*
-        this.chartPanel = new ChartPanel(chart) {
+        this.chartPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 5, 2));
+        this.chartPanel.setBackground(null);
 
-            @Override
-            public Dimension getPreferredSize() {
-                System.out.println(this.getParent().getSize().toString());
-                //return new Dimension(this.getWidth(), this.getHeight());
-
-
-                return new Dimension((int)this.getParent().getSize().getWidth(), (int)this.getParent().getSize().getHeight());
-            }
-
-        };
-
-         */
-
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 5, 2));
-        chartPanel.setBackground(null);
-
-        this.pnlChartGridBag.add(chartPanel, BorderLayout.CENTER);
-        this.pnlChartGridBag.revalidate();
-        this.pnlChartGridBag.repaint();
+        this.pnlChartContainer.add(this.chartPanel, BorderLayout.CENTER);
 
     }
 
@@ -121,13 +116,30 @@ public class PanelSensorDisplay extends JPanel {
         return sensorType;
     }
 
-    public void setSensorValues(double averageValue, double actualValue) {
+    public void setSensorValues(double averageValue, double actualValue,
+                                ArrayList<Double> lastActualValues,
+                                ArrayList<Double> lastActualAverages) {
         NumberFormat nf = NumberFormat.getInstance(new Locale("de", "DE"));
         nf.setMaximumFractionDigits(0);
         nf.setMinimumFractionDigits(0);
 
         this.lblAverageValue.setText(nf.format(averageValue));
         this.lblActualValue.setText(nf.format(actualValue));
+
+        this.chartSeriesAct.clear();
+        if (lastActualValues != null) {
+            for (int i = 0; i < lastActualValues.size(); i++) {
+                this.chartSeriesAct.add(i, lastActualValues.get(i));
+            }
+        }
+
+        this.chartSeriesAvg.clear();
+        if (lastActualAverages != null) {
+            for (int i = 0; i < lastActualAverages.size(); i++) {
+                this.chartSeriesAvg.add(i, lastActualAverages.get(i));
+            }
+        }
+
     }
 
 }
