@@ -62,6 +62,24 @@
                   <text value="Disconnect"/>
                 </properties>
               </component>
+              <hspacer id="f2ff6">
+                <constraints/>
+              </hspacer>
+              <hspacer id="e20f8">
+                <constraints/>
+              </hspacer>
+              <hspacer id="8e232">
+                <constraints/>
+              </hspacer>
+              <hspacer id="29aec">
+                <constraints/>
+              </hspacer>
+              <component id="e8cda" class="javax.swing.JButton" binding="btnSave">
+                <constraints/>
+                <properties>
+                  <text value="Save TCX"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

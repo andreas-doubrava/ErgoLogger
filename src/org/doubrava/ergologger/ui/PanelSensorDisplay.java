@@ -118,7 +118,7 @@ public class PanelSensorDisplay extends JPanel {
         this.chart.setBackgroundPaint(null);
 
         this.chartPanel = new ChartPanel(chart);
-        this.chartPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 5, 2));
+        this.chartPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         this.chartPanel.setBackground(null);
 
         this.pnlChartContainer.add(this.chartPanel, BorderLayout.CENTER);

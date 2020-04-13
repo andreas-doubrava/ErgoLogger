@@ -40,6 +40,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
     private JLabel lblClockTime;
     private JButton btnConnect;
     private JButton btnDisconnect;
+    private JButton btnSave;
     private JLabel lblClock;
 
     private static java.awt.Color DEFAULT_SPD_COLOR = Color.getHSBColor(
@@ -94,6 +95,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
         this.btnRestart.setEnabled(false);
         this.btnStop.setEnabled(false);
         this.btnDisconnect.setEnabled(false);
+        this.btnSave.setEnabled(false);
 
         this.panelSingleKPI1.setSensorValue(0.0);
         this.panelSingleKPI2.setSensorValue(0.0);
@@ -198,6 +200,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                     this.btnRestart.setEnabled(false);
                     this.btnStop.setEnabled(false);
                     this.btnDisconnect.setEnabled(true);
+                    this.btnSave.setEnabled(false);
 
                 } else {
                     this.lblStatusbar.setText("Connection: Failed!");
@@ -220,6 +223,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                     this.btnRestart.setEnabled(false);
                     this.btnStop.setEnabled(true);
                     this.btnDisconnect.setEnabled(false);
+                    this.btnSave.setEnabled(false);
 
                 }
             } else {
@@ -239,6 +243,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                         this.btnRestart.setEnabled(true);
                         this.btnStop.setEnabled(false);
                         this.btnDisconnect.setEnabled(false);
+                        this.btnSave.setEnabled(false);
 
                     } else {
                         this.lblStatusbar.setText("Pause: Service is already sleeping. Press [Restart] to continue.");
@@ -265,6 +270,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                         this.btnRestart.setEnabled(false);
                         this.btnStop.setEnabled(true);
                         this.btnDisconnect.setEnabled(false);
+                        this.btnSave.setEnabled(false);
 
                     }
                 } else {
@@ -286,6 +292,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                     this.btnRestart.setEnabled(false);
                     this.btnStop.setEnabled(false);
                     this.btnDisconnect.setEnabled(true);
+                    this.btnSave.setEnabled(this.dataSet.hasData());
 
                 } else {
                     this.lblStatusbar.setText("Stop: Service is already stopped.");
@@ -308,6 +315,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                     this.btnRestart.setEnabled(false);
                     this.btnStop.setEnabled(false);
                     this.btnDisconnect.setEnabled(false);
+                    this.btnSave.setEnabled(this.dataSet.hasData());
 
                 }
             } else {

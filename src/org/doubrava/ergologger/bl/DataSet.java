@@ -25,12 +25,6 @@ public class DataSet implements DataObserver {
     @Override
     public void updateData(Instant timestamp, HashMap<SensorType, Double> valueMap) {
         this.dataItems.add(new DataItem(timestamp, (HashMap<SensorType, Double>) valueMap.clone()));
-
-        /*
-        System.out.println("  " + timestamp.toString());
-        System.out.println("  " + valueMap.toString());
-        System.out.println("");
-         */
     }
 
     @Override
@@ -66,6 +60,10 @@ public class DataSet implements DataObserver {
             diff = diff.minus(this.sumPause);
         }
         return diff;
+    }
+
+    public boolean hasData() {
+        return this.dataItems.size() > 0;
     }
 
     public Instant getFirstTimestamp() {
