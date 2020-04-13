@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Clock implements ClockSubject, Runnable {
 
-    // A
     private static long DEFAULT_REQUEST_INTERVAL = 1000;
 
     private boolean isRunning;
