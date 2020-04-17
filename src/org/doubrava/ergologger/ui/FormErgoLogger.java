@@ -3,9 +3,12 @@ package org.doubrava.ergologger.ui;
 import org.doubrava.ergologger.bl.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -82,12 +85,13 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
         this.dataAdapter.registerObserver(dataSet);
         this.dataAdapter.registerObserver(this);
 
-        btnStart.addActionListener(this);
-        btnPause.addActionListener(this);
-        btnRestart.addActionListener(this);
-        btnStop.addActionListener(this);
-        btnConnect.addActionListener(this);
-        btnDisconnect.addActionListener(this);
+        this.btnStart.addActionListener(this);
+        this.btnPause.addActionListener(this);
+        this.btnRestart.addActionListener(this);
+        this.btnStop.addActionListener(this);
+        this.btnConnect.addActionListener(this);
+        this.btnDisconnect.addActionListener(this);
+        this.btnSave.addActionListener(this);
 
         this.btnConnect.setEnabled(true);
         this.btnStart.setEnabled(false);
@@ -320,6 +324,41 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 }
             } else {
                 this.lblStatusbar.setText("Disconnect: Service already disconnected.");
+            }
+        } else if (e.getSource() == this.btnSave) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+            for (FileFormat fileFormat : FileFormat.values()) {
+                FileFilter filterTCX = new FileNameExtensionFilter(
+                        DataSet.getFileFormatName(fileFormat),
+                        DataSet.getFileFormatExtension(fileFormat));
+
+                fileChooser.addChoosableFileFilter(filterTCX);
+            }
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+
+                if (fileChooser.getFileFilter() instanceof FileNameExtensionFilter) {
+                    boolean hasValidExt = false;
+
+                    String[] extensions = ((FileNameExtensionFilter)fileChooser.getFileFilter()).getExtensions();
+                    String nameLower = fileToSave.getName().toLowerCase();
+                    // check if it already has a valid extension
+                    for (String ext : extensions) {
+                        if (nameLower.endsWith('.' + ext.toLowerCase())) {
+                            hasValidExt = true;
+                        }
+                    }
+                    // if not, append the first extension from the selected filter
+                    if (!hasValidExt) {
+                        fileToSave = new File(fileToSave.toString() + '.' + extensions[0]);
+                    }
+                }
+                this.dataSet.saveData(fileToSave);
             }
         }
     }

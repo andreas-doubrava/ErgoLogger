@@ -1,5 +1,7 @@
 package org.doubrava.ergologger.bl;
 
+import javax.xml.crypto.Data;
+import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,6 +15,18 @@ public class DataSet implements DataObserver {
     private Duration sumPause;
     private Instant pauseStart;
     private Instant pauseEnd;
+
+    public static String getFileFormatExtension(FileFormat fileFormat) {
+        if (fileFormat == FileFormat.CSV) { return "csv"; }
+        else if (fileFormat == FileFormat.TCX) { return "tcx"; }
+        else { return "unknown"; }
+    }
+
+    public static String getFileFormatName(FileFormat fileFormat) {
+        if (fileFormat == FileFormat.CSV) { return "Comma Separated Values (CSV)"; }
+        else if (fileFormat == FileFormat.TCX) { return "Training Center XML"; }
+        else { return "file format"; }
+    }
 
     public DataSet(ActivityType activityType) {
         this.activityType = activityType;
@@ -130,6 +144,18 @@ public class DataSet implements DataObserver {
             }
         }
         return lst;
+    }
+
+    public boolean saveData(File file) {
+        System.out.println("Save as file: " + file.getAbsolutePath());
+        if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.TCX))) {
+            System.out.println("tcx...");
+        } else if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.CSV))) {
+            System.out.println("csv...");
+        } else {
+            return false;
+        }
+        return true;
     }
 
 }

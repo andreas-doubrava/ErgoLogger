@@ -77,7 +77,7 @@
               <component id="e8cda" class="javax.swing.JButton" binding="btnSave">
                 <constraints/>
                 <properties>
-                  <text value="Save TCX"/>
+                  <text value="Save"/>
                 </properties>
               </component>
             </children>
