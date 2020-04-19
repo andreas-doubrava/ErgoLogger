@@ -1,5 +1,6 @@
 package org.doubrava.ergologger;
 
+import org.doubrava.ergologger.bl.ApplicationProperties;
 import org.doubrava.ergologger.ui.FormErgoLogger;
 
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class Start {
     }
 
     public static void main(String[] args) {
+
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Start.createAndShowGUI();

@@ -73,6 +73,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
     public JPanel getMainPanel() {return this.pnlMain; }
 
     public FormErgoLogger() {
+
         this.clock = new Clock();
         this.clock.registerObserver(this);
 
@@ -336,6 +337,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 fileChooser.addChoosableFileFilter(filterTCX);
             }
             fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.setCurrentDirectory(new File(ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_DIRECTORY)));
 
             int userSelection = fileChooser.showSaveDialog(this);
 
@@ -358,6 +360,8 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                         fileToSave = new File(fileToSave.toString() + '.' + extensions[0]);
                     }
                 }
+                ApplicationProperties.getInstance().setProperty(ApplicationProperty.EXPORT_DIRECTORY, fileToSave.getParent());
+                ApplicationProperties.getInstance().saveProperties();
                 this.dataSet.saveData(fileToSave);
             }
         }
