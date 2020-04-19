@@ -1,8 +1,6 @@
 package org.doubrava.ergologger.ui;
 
-import org.doubrava.ergologger.bl.SensorLabel;
-import org.doubrava.ergologger.bl.SensorLabelItem;
-import org.doubrava.ergologger.bl.SensorType;
+import org.doubrava.ergologger.bl.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -132,7 +130,11 @@ public class PanelSensorDisplay extends JPanel {
     public void setSensorValues(double averageValue, double actualValue,
                                 ArrayList<Double> lastActualValues,
                                 ArrayList<Double> lastActualAverages) {
-        NumberFormat nf = NumberFormat.getInstance(new Locale("de", "DE"));
+
+        NumberFormat nf = NumberFormat.getInstance(new Locale(
+                ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_LANGUAGE),
+                ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_COUNTRY)));
+
         nf.setMaximumFractionDigits(0);
         nf.setMinimumFractionDigits(0);
 

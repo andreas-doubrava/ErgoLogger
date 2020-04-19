@@ -1,8 +1,6 @@
 package org.doubrava.ergologger.ui;
 
-import org.doubrava.ergologger.bl.SensorLabel;
-import org.doubrava.ergologger.bl.SensorLabelItem;
-import org.doubrava.ergologger.bl.SensorType;
+import org.doubrava.ergologger.bl.*;
 
 import javax.swing.*;
 import java.text.NumberFormat;
@@ -27,7 +25,11 @@ public class PanelSingleKPI extends JPanel {
     }
 
     public void setSensorValue(double value) {
-        NumberFormat nf = NumberFormat.getInstance(new Locale("de", "DE"));
+
+        NumberFormat nf = NumberFormat.getInstance(new Locale(
+                ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_LANGUAGE),
+                ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_COUNTRY)));
+
         nf.setMaximumFractionDigits(0);
         nf.setMinimumFractionDigits(0);
 

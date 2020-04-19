@@ -20,4 +20,6 @@ public class DataItem {
         return this.valueMap.get(sensorType);
     }
 
+    public HashMap<SensorType, Double> getValueMap() { return this.valueMap; }
+
 }

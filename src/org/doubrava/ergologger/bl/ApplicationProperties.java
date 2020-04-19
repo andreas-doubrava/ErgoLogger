@@ -17,6 +17,40 @@ public class ApplicationProperties {
 
     private Properties properties;
 
+    private static String getPropertyKey(ApplicationProperty p) {
+        switch (p) {
+            case EXPORT_DIRECTORY: return "export.directory";
+            case EXPORT_CSV_DELIMETER: return "export.csv.delimeter";
+            case EXPORT_CSV_NEWLINE: return "export.csv.newline";
+            case FORMAT_LOCALE_COUNTRY: return "format.locale.country";
+            case FORMAT_LOCALE_LANGUAGE: return "format.locale.language";
+            case FORMAT_DATE_PATTERN: return "format.date";
+            case FORMAT_TIME_PATTERN: return "format.time";
+            case FORMAT_TIMESTAMP_PATTERN: return "format.timestamp";
+
+            default: return "unknown.property.key";
+        }
+    }
+
+    public static String getFileLocation() {
+        String path = System.getProperty("user.home");
+        if (!path.endsWith(File.separator)) {
+            path = path + File.separator;
+        }
+        return path + ApplicationProperties.FILENAME;
+    }
+
+    public static synchronized ApplicationProperties getInstance() {
+        if (uniqueApplicationProperties == null) {
+            synchronized (ApplicationProperties.class) {
+                if (uniqueApplicationProperties == null) {
+                    uniqueApplicationProperties = new ApplicationProperties();
+                }
+            }
+        }
+        return uniqueApplicationProperties;
+    }
+
     private ApplicationProperties() {
         this.properties = new Properties();
 
@@ -34,7 +68,14 @@ public class ApplicationProperties {
         } else {
             // Create default properties
             try (OutputStream output = new FileOutputStream(ApplicationProperties.getFileLocation())) {
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_DATE_PATTERN), "dd.MM.yyyy");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_TIME_PATTERN), "HH:mm:ss");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_TIMESTAMP_PATTERN), "dd.MM.yyyy HH:mm:ss");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_LOCALE_COUNTRY), "DE");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_LOCALE_LANGUAGE), "de");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_DIRECTORY), System.getProperty("user.home"));
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_CSV_DELIMETER), "\t");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_CSV_NEWLINE), "\n");
                 this.properties.store(output, null);
 
             } catch (IOException io) {
@@ -44,26 +85,7 @@ public class ApplicationProperties {
 
     }
 
-    public static synchronized ApplicationProperties getInstance() {
-        if (uniqueApplicationProperties == null) {
-            synchronized (ApplicationProperties.class) {
-                if (uniqueApplicationProperties == null) {
-                    uniqueApplicationProperties = new ApplicationProperties();
-                }
-            }
-        }
-        return uniqueApplicationProperties;
-    }
-
-    public static String getFileLocation() {
-        String path = System.getProperty("user.home");
-        if (!path.endsWith(File.separator)) {
-            path = path + File.separator;
-        }
-        return path + ApplicationProperties.FILENAME;
-    }
-
-    public boolean saveProperties() {
+     public boolean saveProperties() {
         try (OutputStream output = new FileOutputStream(ApplicationProperties.getFileLocation())) {
 
             this.properties.store(output, null);
@@ -73,15 +95,6 @@ public class ApplicationProperties {
             return false;
         }
         return true;
-    }
-
-    private static String getPropertyKey(ApplicationProperty p) {
-        switch (p) {
-            case EXPORT_DIRECTORY:
-                return "export.directory";
-            default:
-                return "unknown.property.key";
-        }
     }
 
     public String getProperty(ApplicationProperty key) {

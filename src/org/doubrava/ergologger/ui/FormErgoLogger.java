@@ -123,13 +123,13 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
     @Override
     public void updateClock(Instant timestamp) {
         DateTimeFormatter dateFormatter =
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                        .withLocale(Locale.GERMANY)
+                DateTimeFormatter.ofPattern(
+                        ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_DATE_PATTERN))
                         .withZone(ZoneId.systemDefault());
 
         DateTimeFormatter timeFormatter =
-                DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
-                        .withLocale(Locale.GERMANY)
+                DateTimeFormatter.ofPattern(
+                        ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_TIME_PATTERN))
                         .withZone(ZoneId.systemDefault());
 
         this.lblClockDate.setText(dateFormatter.format(timestamp));
@@ -362,7 +362,14 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 }
                 ApplicationProperties.getInstance().setProperty(ApplicationProperty.EXPORT_DIRECTORY, fileToSave.getParent());
                 ApplicationProperties.getInstance().saveProperties();
-                this.dataSet.saveData(fileToSave);
+                int result = this.dataSet.saveData(fileToSave);
+                if (result < 0) {
+                    this.lblStatusbar.setText("Save: FAILED!");
+                } else if (result == 0) {
+                    this.lblStatusbar.setText("No data items to save.");
+                } else {
+                    this.lblStatusbar.setText(result + " items saved.");
+                }
             }
         }
     }

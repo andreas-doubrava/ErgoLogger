@@ -2,5 +2,11 @@ package org.doubrava.ergologger.bl;
 
 public enum ApplicationProperty {
     EXPORT_DIRECTORY,
-    COM_PORT
+    EXPORT_CSV_DELIMETER,
+    EXPORT_CSV_NEWLINE,
+    FORMAT_TIMESTAMP_PATTERN,
+    FORMAT_TIME_PATTERN,
+    FORMAT_DATE_PATTERN,
+    FORMAT_LOCALE_COUNTRY,
+    FORMAT_LOCALE_LANGUAGE
 }

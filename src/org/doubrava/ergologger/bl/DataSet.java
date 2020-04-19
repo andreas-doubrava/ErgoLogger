@@ -1,11 +1,18 @@
 package org.doubrava.ergologger.bl;
 
-import javax.xml.crypto.Data;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class DataSet implements DataObserver {
 
@@ -146,16 +153,59 @@ public class DataSet implements DataObserver {
         return lst;
     }
 
-    public boolean saveData(File file) {
-        System.out.println("Save as file: " + file.getAbsolutePath());
-        if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.TCX))) {
-            System.out.println("tcx...");
-        } else if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.CSV))) {
-            System.out.println("csv...");
-        } else {
-            return false;
+    public int saveData(File file) {
+        if (this.hasData()) {
+
+            if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.TCX))) {
+                System.out.println("tcx not implemented yet...");
+                return -1;
+
+            } else if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.CSV))) {
+
+                try {
+                    FileWriter fileWriter = new FileWriter(file);
+                    String csvDelimeter = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_CSV_DELIMETER);
+                    String csvNewLine = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_CSV_NEWLINE);
+
+                    fileWriter.append("Timestamp");
+                    for(Map.Entry<SensorType, Double> entry : this.dataItems.get(0).getValueMap().entrySet()) {
+                        fileWriter.append(csvDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(entry.getKey()).get(SensorLabelItem.NAME));
+                    }
+                    fileWriter.append(csvNewLine);
+
+                    DateTimeFormatter timestampFormatter =
+                            DateTimeFormatter.ofPattern(
+                                    ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_TIMESTAMP_PATTERN))
+                                    .withZone(ZoneId.systemDefault());
+
+                    NumberFormat nf = NumberFormat.getInstance(new Locale(
+                            ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_LANGUAGE),
+                            ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_COUNTRY)));
+
+                    nf.setMaximumFractionDigits(2);
+                    nf.setMinimumFractionDigits(2);
+
+                    for (int i = 0; i < this.dataItems.size(); i++) {
+                        fileWriter.append(timestampFormatter.format(this.dataItems.get(i).getTimestamp()));
+                        for(Map.Entry<SensorType, Double> entry : this.dataItems.get(i).getValueMap().entrySet()) {
+                            fileWriter.append(csvDelimeter);
+                            fileWriter.append(nf.format(entry.getValue()));
+                        }
+                        fileWriter.append(csvNewLine);
+                    }
+                    fileWriter.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else {
+                return -1;
+            }
         }
-        return true;
+        return this.dataItems.size();
     }
 
 }
