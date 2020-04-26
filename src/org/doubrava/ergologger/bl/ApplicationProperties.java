@@ -20,8 +20,8 @@ public class ApplicationProperties {
     private static String getPropertyKey(ApplicationProperty p) {
         switch (p) {
             case EXPORT_DIRECTORY: return "export.directory";
-            case EXPORT_CSV_DELIMETER: return "export.csv.delimeter";
-            case EXPORT_CSV_NEWLINE: return "export.csv.newline";
+            case EXPORT_TXT_DELIMETER: return "export.txt.delimeter";
+            case EXPORT_TXT_NEWLINE: return "export.txt.newline";
             case FORMAT_LOCALE_COUNTRY: return "format.locale.country";
             case FORMAT_LOCALE_LANGUAGE: return "format.locale.language";
             case FORMAT_DATE_PATTERN: return "format.date";
@@ -74,8 +74,8 @@ public class ApplicationProperties {
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_LOCALE_COUNTRY), "DE");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_LOCALE_LANGUAGE), "de");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_DIRECTORY), System.getProperty("user.home"));
-                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_CSV_DELIMETER), "\t");
-                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_CSV_NEWLINE), "\n");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_TXT_DELIMETER), "\t");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.EXPORT_TXT_NEWLINE), "\n");
                 this.properties.store(output, null);
 
             } catch (IOException io) {

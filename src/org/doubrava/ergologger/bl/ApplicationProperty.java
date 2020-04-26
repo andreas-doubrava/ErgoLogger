@@ -2,8 +2,8 @@ package org.doubrava.ergologger.bl;
 
 public enum ApplicationProperty {
     EXPORT_DIRECTORY,
-    EXPORT_CSV_DELIMETER,
-    EXPORT_CSV_NEWLINE,
+    EXPORT_TXT_DELIMETER,
+    EXPORT_TXT_NEWLINE,
     FORMAT_TIMESTAMP_PATTERN,
     FORMAT_TIME_PATTERN,
     FORMAT_DATE_PATTERN,

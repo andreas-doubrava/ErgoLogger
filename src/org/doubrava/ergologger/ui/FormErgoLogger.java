@@ -362,7 +362,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 }
                 ApplicationProperties.getInstance().setProperty(ApplicationProperty.EXPORT_DIRECTORY, fileToSave.getParent());
                 ApplicationProperties.getInstance().saveProperties();
-                int result = this.dataSet.saveData(fileToSave);
+                int result = this.dataSet.saveData(this.dataAdapter, fileToSave);
                 if (result < 0) {
                     this.lblStatusbar.setText("Save: FAILED!");
                 } else if (result == 0) {

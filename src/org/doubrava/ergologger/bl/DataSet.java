@@ -24,13 +24,13 @@ public class DataSet implements DataObserver {
     private Instant pauseEnd;
 
     public static String getFileFormatExtension(FileFormat fileFormat) {
-        if (fileFormat == FileFormat.CSV) { return "csv"; }
+        if (fileFormat == FileFormat.TXT) { return "txt"; }
         else if (fileFormat == FileFormat.TCX) { return "tcx"; }
         else { return "unknown"; }
     }
 
     public static String getFileFormatName(FileFormat fileFormat) {
-        if (fileFormat == FileFormat.CSV) { return "Comma Separated Values (CSV)"; }
+        if (fileFormat == FileFormat.TXT) { return "Text (Tabstop-separated)"; }
         else if (fileFormat == FileFormat.TCX) { return "Training Center XML"; }
         else { return "file format"; }
     }
@@ -153,26 +153,58 @@ public class DataSet implements DataObserver {
         return lst;
     }
 
-    public int saveData(File file) {
+    public int saveData(DataAdapter adapter, File file) {
         if (this.hasData()) {
 
             if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.TCX))) {
                 System.out.println("tcx not implemented yet...");
                 return -1;
 
-            } else if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.CSV))) {
+            } else if (file.getName().toLowerCase().endsWith("." + DataSet.getFileFormatExtension(FileFormat.TXT))) {
 
                 try {
                     FileWriter fileWriter = new FileWriter(file);
-                    String csvDelimeter = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_CSV_DELIMETER);
-                    String csvNewLine = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_CSV_NEWLINE);
+                    String txtDelimeter = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_TXT_DELIMETER);
+                    String txtNewLine = ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_TXT_NEWLINE);
 
                     fileWriter.append("Timestamp");
+
+                    if (adapter.getSensorTypeAvailability().get(SensorType.DURATION)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.DURATION).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.DISTANCE)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.DISTANCE).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.SPEED)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.SPEED).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.HRF)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.HRF).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.RPM)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.RPM).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.POWER)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.POWER).get(SensorLabelItem.NAME));
+                    }
+                    if (adapter.getSensorTypeAvailability().get(SensorType.CALORIES)) {
+                        fileWriter.append(txtDelimeter);
+                        fileWriter.append(SensorLabel.getInstance().getMap(SensorType.CALORIES).get(SensorLabelItem.NAME));
+                    }
+                    /*
+                    // Problem: unsorted...
                     for(Map.Entry<SensorType, Double> entry : this.dataItems.get(0).getValueMap().entrySet()) {
-                        fileWriter.append(csvDelimeter);
+                        fileWriter.append(txtDelimeter);
                         fileWriter.append(SensorLabel.getInstance().getMap(entry.getKey()).get(SensorLabelItem.NAME));
                     }
-                    fileWriter.append(csvNewLine);
+                    */
+                    fileWriter.append(txtNewLine);
 
                     DateTimeFormatter timestampFormatter =
                             DateTimeFormatter.ofPattern(
@@ -188,11 +220,43 @@ public class DataSet implements DataObserver {
 
                     for (int i = 0; i < this.dataItems.size(); i++) {
                         fileWriter.append(timestampFormatter.format(this.dataItems.get(i).getTimestamp()));
+
+                        if (adapter.getSensorTypeAvailability().get(SensorType.DURATION)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.DURATION)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.DISTANCE)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.DISTANCE)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.SPEED)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.SPEED)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.HRF)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.HRF)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.RPM)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.RPM)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.POWER)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.POWER)));
+                        }
+                        if (adapter.getSensorTypeAvailability().get(SensorType.CALORIES)) {
+                            fileWriter.append(txtDelimeter);
+                            fileWriter.append(nf.format(this.dataItems.get(i).getValue(SensorType.CALORIES)));
+                        }
+                        /*
+                        // Problem: unsorted
                         for(Map.Entry<SensorType, Double> entry : this.dataItems.get(i).getValueMap().entrySet()) {
-                            fileWriter.append(csvDelimeter);
+                            fileWriter.append(txtDelimeter);
                             fileWriter.append(nf.format(entry.getValue()));
                         }
-                        fileWriter.append(csvNewLine);
+                        */
+                        fileWriter.append(txtNewLine);
                     }
                     fileWriter.close();
 
