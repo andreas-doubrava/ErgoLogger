@@ -18,7 +18,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ExportEngine_TCX implements FileExportEngine {
+public class ExportEngine_TCX implements ExportEngine {
 
     private static final String FILEFORMAT_EXTENSION = "tcx";
     private static final String FILEFORMAT_NAME = "Training Center XML";

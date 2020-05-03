@@ -14,8 +14,8 @@ public class DataSet implements DataObserver {
     private Instant pauseStart;
     private Instant pauseEnd;
 
-    public DataSet(ActivityType activityType) {
-        this.activityType = activityType;
+    public DataSet() {
+        this.activityType = ActivityType.OTHER;
         this.dataItems = new ArrayList<DataItem>();
         this.sumPause = Duration.ZERO;
         this.pauseStart = null;
@@ -62,14 +62,26 @@ public class DataSet implements DataObserver {
         return diff;
     }
 
-    public String getActivityTypeName() {
-        switch (this.activityType) {
+    public static String getActivityTypeName(ActivityType activityType) {
+        switch (activityType) {
             case BIKING: return "Biking";
             case RUNNING: return "Running";
-            case OTHER: return "Other";
-            default: return "Unknown";
+            default: return "Other";
         }
     }
+
+    public String getActivityTypeName() {
+        return DataSet.getActivityTypeName(this.activityType);
+    }
+
+    public void setActivityType(String typeName) {
+        switch (typeName) {
+            case "Biking": this.activityType = ActivityType.BIKING;
+            case "Running": this.activityType = ActivityType.RUNNING;
+            default: this.activityType = ActivityType.OTHER;
+        }
+    }
+
     public boolean hasData() {
         return this.dataItems.size() > 0;
     }

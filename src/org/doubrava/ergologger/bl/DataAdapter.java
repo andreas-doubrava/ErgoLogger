@@ -33,6 +33,8 @@ public abstract class DataAdapter implements DataSubject, Runnable {
         this.isActive = false;
     }
 
+    public abstract String getName();
+
     // *** Connection *********************************************************
 
     public abstract void openConnection();

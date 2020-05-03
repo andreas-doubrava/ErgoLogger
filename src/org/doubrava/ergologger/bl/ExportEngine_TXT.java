@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ExportEngine_TXT implements FileExportEngine {
+public class ExportEngine_TXT implements ExportEngine {
 
     private static final String FILEFORMAT_EXTENSION = "txt";
     private static final String FILEFORMAT_NAME = "Text (Tabstop-separated)";

@@ -1,6 +1,8 @@
 package org.doubrava.ergologger.bl;
 
 public enum ApplicationProperty {
+    DATA_ADAPTER,
+    DATA_ACTIVITY_TYPE,
     EXPORT_DIRECTORY,
     EXPORT_TXT_DELIMETER,
     EXPORT_TXT_NEWLINE,

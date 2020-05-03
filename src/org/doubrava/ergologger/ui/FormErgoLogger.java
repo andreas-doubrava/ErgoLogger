@@ -80,8 +80,31 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
         Thread clockThread = new Thread(this.clock);
         clockThread.start();
 
-        this.dataAdapter = new VirtualDataAdapter();
-        this.dataSet = new DataSet(ActivityType.BIKING);
+        System.out.println("Data Adapter:");
+        for (DataAdapter adapter : DataAdapters.getInstance().getDataAdapters()) {
+            if (adapter.getName().toLowerCase().equals(
+                    ApplicationProperties.getInstance().getProperty(ApplicationProperty.DATA_ADAPTER).toLowerCase())) {
+                System.out.println("  [x] " + adapter.getName());
+            } else {
+                System.out.println("  [ ] " + adapter.getName());
+            }
+        }
+
+        System.out.println("Activity Type:");
+        for (ActivityType activityType : ActivityType.values()) {
+            if (DataSet.getActivityTypeName(activityType).toLowerCase().equals(
+                    ApplicationProperties.getInstance().getProperty(ApplicationProperty.DATA_ACTIVITY_TYPE).toLowerCase())) {
+                System.out.println("  [x] " + DataSet.getActivityTypeName(activityType));
+            } else {
+                System.out.println("  [ ] " + DataSet.getActivityTypeName(activityType));
+            }
+        }
+
+        this.dataAdapter = DataAdapters.getInstance().getDataAdapter(
+                ApplicationProperties.getInstance().getProperty(ApplicationProperty.DATA_ADAPTER)
+        );
+        this.dataSet = new DataSet();
+        this.dataSet.setActivityType(ApplicationProperties.getInstance().getProperty(ApplicationProperty.DATA_ACTIVITY_TYPE));
 
         this.dataAdapter.registerObserver(dataSet);
         this.dataAdapter.registerObserver(this);
@@ -330,7 +353,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Specify a file to save");
 
-            for (FileExportEngine engine : FileExportEngines.getInstance().getEngines()) {
+            for (ExportEngine engine : ExportEngines.getInstance().getEngines()) {
                 FileFilter filter = new FileNameExtensionFilter(
                         engine.getFileFormatName(),
                         engine.getFileFormatExtension());
@@ -371,7 +394,7 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 }
                 extension = extension.substring(lastIndexOf);
 
-                FileExportEngine engine = FileExportEngines.getInstance().getEngine(extension);
+                ExportEngine engine = ExportEngines.getInstance().getEngine(extension);
 
                 int result = engine.export(this.dataAdapter, this.dataSet, fileToSave);
 

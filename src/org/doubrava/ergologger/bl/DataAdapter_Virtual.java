@@ -5,9 +5,12 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Random;
 
-public class VirtualDataAdapter extends DataAdapter {
+public class DataAdapter_Virtual extends DataAdapter {
 
     private Random random;
+
+    @Override
+    public String getName() { return "Virtual"; }
 
     // *** Connection *********************************************************
 
