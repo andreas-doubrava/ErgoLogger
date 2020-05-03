@@ -329,12 +329,13 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
         } else if (e.getSource() == this.btnSave) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Specify a file to save");
-            for (FileFormat fileFormat : FileFormat.values()) {
-                FileFilter filterTCX = new FileNameExtensionFilter(
-                        DataSet.getFileFormatName(fileFormat),
-                        DataSet.getFileFormatExtension(fileFormat));
 
-                fileChooser.addChoosableFileFilter(filterTCX);
+            for (FileExportEngine engine : FileExportEngines.getInstance().getEngines()) {
+                FileFilter filter = new FileNameExtensionFilter(
+                        engine.getFileFormatName(),
+                        engine.getFileFormatExtension());
+
+                fileChooser.addChoosableFileFilter(filter);
             }
             fileChooser.setAcceptAllFileFilterUsed(false);
             fileChooser.setCurrentDirectory(new File(ApplicationProperties.getInstance().getProperty(ApplicationProperty.EXPORT_DIRECTORY)));
@@ -362,7 +363,18 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
                 }
                 ApplicationProperties.getInstance().setProperty(ApplicationProperty.EXPORT_DIRECTORY, fileToSave.getParent());
                 ApplicationProperties.getInstance().saveProperties();
-                int result = this.dataSet.saveData(this.dataAdapter, fileToSave);
+
+                String extension = fileToSave.getName();
+                int lastIndexOf = extension.lastIndexOf(".");
+                if (lastIndexOf == -1) {
+                    extension = "";
+                }
+                extension = extension.substring(lastIndexOf);
+
+                FileExportEngine engine = FileExportEngines.getInstance().getEngine(extension);
+
+                int result = engine.export(this.dataAdapter, this.dataSet, fileToSave);
+
                 if (result < 0) {
                     this.lblStatusbar.setText("Save: FAILED!");
                 } else if (result == 0) {
