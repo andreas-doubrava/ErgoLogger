@@ -62,6 +62,14 @@ public class DataSet implements DataObserver {
         return diff;
     }
 
+    public String getActivityTypeName() {
+        switch (this.activityType) {
+            case BIKING: return "Biking";
+            case RUNNING: return "Running";
+            case OTHER: return "Other";
+            default: return "Unknown";
+        }
+    }
     public boolean hasData() {
         return this.dataItems.size() > 0;
     }

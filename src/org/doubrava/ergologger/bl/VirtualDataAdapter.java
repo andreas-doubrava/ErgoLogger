@@ -38,8 +38,8 @@ public class VirtualDataAdapter extends DataAdapter {
         map.put(SensorType.POWER, true);
         map.put(SensorType.RPM, true);
         map.put(SensorType.SPEED, true);
-        map.put(SensorType.DISTANCE, true);
         map.put(SensorType.DURATION, true);
+        map.put(SensorType.DISTANCE, true);
         map.put(SensorType.CALORIES, true);
         return map;
     }
@@ -53,8 +53,8 @@ public class VirtualDataAdapter extends DataAdapter {
         this.currentValueMap.put(SensorType.POWER, 110 + (200 - 110) * random.nextDouble());
         this.currentValueMap.put(SensorType.RPM, 60 + (110 - 60) * random.nextDouble());
         this.currentValueMap.put(SensorType.SPEED, 18 + (45 - 18) * random.nextDouble());
-        this.currentValueMap.put(SensorType.DISTANCE, (double) (80 * 1000 * Duration.between(this.startTimestamp, this.currentTimestamp).toMillis() / 1000 / 60 / 60));
-        this.currentValueMap.put(SensorType.DURATION, (double) (Duration.between(this.startTimestamp, this.currentTimestamp).toMillis() / 1000));
-        this.currentValueMap.put(SensorType.CALORIES, (double) (500 * Duration.between(this.startTimestamp, this.currentTimestamp).toMillis() / 1000 / 60 / 60));
+        this.currentValueMap.put(SensorType.DURATION, (double) (Duration.between(this.startTimestamp, this.currentTimestamp).getSeconds()));
+        this.currentValueMap.put(SensorType.DISTANCE, (double) (8 * Duration.between(this.startTimestamp, this.currentTimestamp).getSeconds()));
+        this.currentValueMap.put(SensorType.CALORIES, (double) (140 / 1000 * Duration.between(this.startTimestamp, this.currentTimestamp).getSeconds()));
     }
 }

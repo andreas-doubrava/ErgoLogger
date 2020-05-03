@@ -1,6 +1,5 @@
 package org.doubrava.ergologger;
 
-import org.doubrava.ergologger.bl.ApplicationProperties;
 import org.doubrava.ergologger.ui.FormErgoLogger;
 
 import javax.swing.JFrame;
