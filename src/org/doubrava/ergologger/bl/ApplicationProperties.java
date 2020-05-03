@@ -20,6 +20,7 @@ public class ApplicationProperties {
     private static String getPropertyKey(ApplicationProperty p) {
         switch (p) {
             case DATA_ADAPTER: return "data.adapter";
+            case DATA_SERIAL_PORT: return "data.serial.port";
             case DATA_ACTIVITY_TYPE: return "data.activity.type";
             case EXPORT_DIRECTORY: return "export.directory";
             case EXPORT_TXT_DELIMETER: return "export.txt.delimeter";
@@ -71,6 +72,7 @@ public class ApplicationProperties {
             // Create default properties
             try (OutputStream output = new FileOutputStream(ApplicationProperties.getFileLocation())) {
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.DATA_ADAPTER), "Virtual");
+                this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.DATA_SERIAL_PORT), "");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.DATA_ACTIVITY_TYPE), "Biking");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_DATE_PATTERN), "dd.MM.yyyy");
                 this.properties.setProperty(ApplicationProperties.getPropertyKey(ApplicationProperty.FORMAT_TIME_PATTERN), "HH:mm:ss");
