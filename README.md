@@ -17,6 +17,3 @@ sudo usermod -a -G tty username
 
 # Confuguration file
 ~/.ergologger.properties
-
-data.serial.port=
-data.adapter=Virtual

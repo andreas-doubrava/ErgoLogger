@@ -2,11 +2,8 @@ package org.doubrava.ergologger.bl;
 
 import com.fazecast.jSerialComm.SerialPort;
 
-import java.math.BigInteger;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 public class DataAdapter_DaumErgoBike8008TRS4 extends DataAdapter {
 
@@ -24,7 +21,7 @@ public class DataAdapter_DaumErgoBike8008TRS4 extends DataAdapter {
         System.out.println("Serial Port:");
 
         String portName = ApplicationProperties.getInstance().getProperty(ApplicationProperty.DATA_SERIAL_PORT);
-        if (portName != null && !portName.equals("")) {
+        if (portName != null && !portName.isEmpty()) {
             System.out.println("  Defined serial port from properties file: " + portName);
         } else {
             try {
