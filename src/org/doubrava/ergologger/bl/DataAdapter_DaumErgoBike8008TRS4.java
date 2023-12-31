@@ -277,7 +277,7 @@ public class DataAdapter_DaumErgoBike8008TRS4 extends DataAdapter {
         }
 
         if (!success) {
-            System.out.println("Hint: If no bytes are available, check, if you are in an program.");
+            System.out.println("Hint: If no bytes are available, check, if you are in a program.");
             System.out.println("      For example, if you are in a menu, data is not provided by the device.");
             System.out.println("      Pressing the Menu-Button on the device and enter a program may help you.");
             this.closeConnection();

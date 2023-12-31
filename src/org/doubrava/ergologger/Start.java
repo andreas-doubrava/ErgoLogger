@@ -24,11 +24,7 @@ public class Start {
 
     public static void main(String[] args) {
 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Start.createAndShowGUI();
-            }
-        });
+        javax.swing.SwingUtilities.invokeLater(Start::createAndShowGUI);
 
     }
 
