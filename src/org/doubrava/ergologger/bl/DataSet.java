@@ -55,9 +55,15 @@ public class DataSet implements DataObserver {
     public void onStop() {}
 
     public Duration getDuration(boolean excludePause) {
-        Duration diff = Duration.between(this.getFirstTimestamp(), this.getLastTimestamp());
-        if (excludePause) {
-            diff = diff.minus(this.sumPause);
+        Duration diff = Duration.ZERO;
+        try {
+            diff = Duration.between(this.getFirstTimestamp(), this.getLastTimestamp());
+            if (excludePause) {
+                diff = diff.minus(this.sumPause);
+            }
+
+        } catch (java.lang.NullPointerException ex) {
+            //return Duration.ZERO;
         }
         return diff;
     }
