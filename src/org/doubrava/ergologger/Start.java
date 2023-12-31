@@ -7,13 +7,19 @@ import javax.swing.JFrame;
 public class Start {
 
     /**
+     * 0.1  Original version from 2020-04
+     * 0.2  Fix DataSet (NullPointerException on start recording data)
+     */
+    public final static String ergologgerVersion = "0.2";
+
+    /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frmMain = new JFrame("ErgoLogger");
+        JFrame frmMain = new JFrame("ErgoLogger " + Start.ergologgerVersion);
         frmMain.setContentPane(new FormErgoLogger().getMainPanel());
         frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
