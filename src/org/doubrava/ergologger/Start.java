@@ -9,8 +9,10 @@ public class Start {
     /**
      * 0.1  Original version from 2020-04
      * 0.2  Fix DataSet (NullPointerException on start recording data)
+     * 0.3  Fix DataSet.setActivityType
+     *      Fix TCX-Export: ExportEngine =>add Element <Author>...</Author>
      */
-    public final static String ergologgerVersion = "0.2";
+    public final static String ergologgerVersion = "0.3";
 
     /**
      * Create the GUI and show it.  For thread safety,

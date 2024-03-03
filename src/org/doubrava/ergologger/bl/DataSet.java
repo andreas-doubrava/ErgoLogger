@@ -82,8 +82,12 @@ public class DataSet implements DataObserver {
 
     public void setActivityType(String typeName) {
         switch (typeName) {
-            case "Biking": this.activityType = ActivityType.BIKING;
-            case "Running": this.activityType = ActivityType.RUNNING;
+            case "Biking":
+                this.activityType = ActivityType.BIKING;
+                break;
+            case "Running":
+                this.activityType = ActivityType.RUNNING;
+                break;
             default: this.activityType = ActivityType.OTHER;
         }
     }

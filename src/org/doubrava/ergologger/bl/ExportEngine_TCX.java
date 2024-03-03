@@ -214,6 +214,43 @@ public class ExportEngine_TCX implements ExportEngine {
                 extensions.appendChild(ns3_LX);
                 lap.appendChild(extensions);
 
+                // +++ Add Author +++
+
+                Element author = document.createElement("Author");
+                author.setAttribute("xsi:type", "Application_t");
+                root.appendChild(author);
+
+                Element author_name = document.createElement("Name");
+                author_name.appendChild(document.createTextNode("ErgoLogger"));
+                author.appendChild(author_name);
+
+                Element author_build = document.createElement("Build");
+                author.appendChild(author_build);
+
+                Element author_version = document.createElement("Version");
+                author_build.appendChild(author_version);
+
+                Element author_ver_v_maj = document.createElement("VersionMajor");
+                author_ver_v_maj.appendChild(document.createTextNode("0"));
+                author_version.appendChild(author_ver_v_maj);
+
+                Element author_ver_v_min = document.createElement("VersionMinor");
+                author_ver_v_min.appendChild(document.createTextNode("0"));
+                author_version.appendChild(author_ver_v_min);
+
+                Element author_ver_b_maj = document.createElement("BuildMajor");
+                author_ver_b_maj.appendChild(document.createTextNode("0"));
+                author_version.appendChild(author_ver_b_maj);
+
+                Element author_ver_b_min = document.createElement("BuildMinor");
+                author_ver_b_min.appendChild(document.createTextNode("0"));
+                author_version.appendChild(author_ver_b_min);
+
+                Element author_lang = document.createElement("LangID");
+                author_lang.appendChild(document.createTextNode(
+                        ApplicationProperties.getInstance().getProperty(ApplicationProperty.FORMAT_LOCALE_LANGUAGE)));
+                author.appendChild(author_lang);
+
                 // -----------------------------------------------------------------------------------------------------
                 // create the xml file
                 // transform the DOM Object to an XML File
