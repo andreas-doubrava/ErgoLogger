@@ -1,5 +1,6 @@
 package org.doubrava.ergologger.ui;
 
+import org.doubrava.ergologger.Start;
 import org.doubrava.ergologger.bl.*;
 
 import javax.swing.*;
@@ -79,6 +80,8 @@ public class FormErgoLogger extends JPanel implements ClockObserver, DataObserve
 
         Thread clockThread = new Thread(this.clock);
         clockThread.start();
+
+        System.out.println("ErgoLogger Version: " + Start.ergologgerVersion);
 
         System.out.println("Data Adapter:");
         for (DataAdapter adapter : DataAdapters.getInstance().getDataAdapters()) {
